@@ -1,0 +1,212 @@
+
+<PongGame>
+    ball: pong_ball
+    player1: player_left
+    player2: player_right
+    ti1: ti1
+    start: start
+    result: result
+
+    FloatLayout:
+        size: root.width, root.height
+
+        PongTable:
+            size_hint: (0.75, 0.95)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        PongTableNet:
+            size_hint: (0.006, 1)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        PongTableLineTop:
+            size_hint: (0.75, 0.005)
+            pos_hint: {'x': 0.125, 'top': 0.9}
+
+        PongTableLineBottom:
+            size_hint: (0.75, 0.005)
+            pos_hint: {'x': 0.125, 'top': 0.1}
+
+        PongTableLineCenter:
+            size_hint: (0.375, 0.005)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        PongTableLineLeft:
+            size_hint: (0.005, 0.8)
+            pos_hint: {'x': 0.31, 'top': 0.9}
+
+        PongTableLineRight:
+            size_hint: (0.005, 0.8)
+            pos_hint: {'x': 0.685, 'top': 0.9}
+
+        Label:
+            text: str(root.player1.score)
+            font_size: root.width * 0.1
+            font_name: 'Designer.otf'
+            color: 20/255, 50/255, 140/255, 1
+            size_hint: None, None
+            size: self.texture_size[0], self.texture_size[1]
+            pos_hint: {'x': 0.16, 'top': 0.6}
+
+        Label:
+            text: str(root.player2.score)
+            font_size: root.width * 0.1
+            font_name: 'Designer.otf'
+            color: 20/255, 50/255, 140/255, 1
+            size_hint: None, None
+            size: self.texture_size[0], self.texture_size[1]
+            pos_hint: {'x': 0.72, 'top': 0.6}
+
+        PongPaddleLeft:
+            id: player_left
+            x: root.x
+            center_y: root.center_y
+            size_hint: (0.078, 0.087)
+
+        PongPaddleRight:
+            id: player_right
+            x: root.width - self.width
+            center_y: root.center_y
+            size_hint: (0.078, 0.087)
+
+        TextInput:
+            id: ti1
+            size_hint: (1, 0.1)
+            background_color: 1, 1, 1, 0
+
+        PongBall:
+            id: pong_ball
+            center: self.parent.center
+            size_hint: (0.019, 0.034)
+
+        Label:
+            id: start
+            text: "3"
+            font_size: root.width * 0.25
+            font_name: 'Designer.otf'
+            color: 1, 1, 1, 1
+            outline_color: 0, 0, 0, 1
+            outline_width: 10
+            size_hint: None, None
+            size: self.texture_size[0], self.texture_size[1]
+            pos_hint: {'x': 0.42, 'top': 0.7}
+
+        Label:
+            id: result
+            text: ""
+            font_size: root.width * 0.05
+            font_name: 'Designer.otf'
+            color: 1, 1, 1, 1
+            outline_color: 0, 0, 0, 1
+            outline_width: 10
+            size_hint: None, None
+            size: self.texture_size[0], self.texture_size[1]
+            pos_hint: {'x': 0.22, 'top': 0.9}
+
+<PongBall>:
+    canvas:
+        Color:
+            # rgba: 1, 1, 0, 1
+            rgba: (1, 165/255, 0, 1) if self.velocity_x > 32 or self.velocity_x < -32 else (255/255, 244/255, 85/255, 1) # rgb(255, 244, 85)
+        Ellipse:
+            pos: self.pos
+            size: self.size
+        Color:
+            # rgba: 0, 0, 0, 0.1
+            rgba: (1, 0, 0, 0.75) if self.velocity_x > 32 or self.velocity_x < -32 else (0, 0, 0, 0.1) # rgb(255, 244, 85)
+        BoxShadow:
+            pos: self.pos
+            size: self.size
+            offset: 0, 0
+            spread_radius: 5, 5
+            border_radius: 10, 10, 10, 10
+            blur_radius: 25 if self.velocity_x > 32 or self.velocity_x < -32 else 15
+
+<PongPaddleLeft>
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            source: 'ping-pong-paddle-left.png'
+            pos: self.pos
+            size: self.size
+
+<PongPaddleRight>
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            source: 'ping-pong-paddle-right.png'
+            pos: self.pos
+            size: self.size
+
+<PongTable>
+    canvas:
+        Color:
+            rgba: 25/255, 100/255, 200/255, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+        Color:
+            rgba: 1, 1, 1, 1
+        Line:
+            rectangle: (self.x, self.y, self.width, self.height)
+            width: 3
+
+        Color:
+            rgba: 0, 0, 0, 0.15
+        BoxShadow:
+            pos: self.pos
+            size: self.size
+            offset: 0, 0
+            spread_radius: 10, 10
+            border_radius: 10, 10, 10, 10
+            blur_radius: 40
+
+<PongTableNet>
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<PongTableLineTop>
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<PongTableLineBottom>
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<PongTableLineCenter>
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<PongTableLineLeft>
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<PongTableLineRight>
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
